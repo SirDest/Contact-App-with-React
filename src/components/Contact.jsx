@@ -5,7 +5,7 @@ import AddContact from "./AddContact";
 import { BsPersonAdd } from "react-icons/bs";
 import { ImAddressBook } from "react-icons/im";
 
-const Contact = () => {
+const Contact = ({ newContact, contacts }) => {
   const [addClicked, setAddClicked] = useState(false);
   const [editClicked, setEditClicked] = useState(false);
   const [deleteClicked, setDeleteClicked] = useState(false);
@@ -36,7 +36,7 @@ const Contact = () => {
   };
 
   return addContForm ? (
-    <AddContact setAddContForm={setAddContForm} />
+    <AddContact setAddContForm={setAddContForm} newContact={newContact} />
   ) : (
     <div className="w-full h-fit flex flex-col">
       <div className="w-full sm:w-[500px] m-auto h-fit bg-white flex justify-between gap-1 sm:gap-2 md:gap-4 items-center p-3 border-t-2 border-gray-400">
@@ -56,12 +56,16 @@ const Contact = () => {
         </button>
       </div>
       <div className="h-fit w-full sm:w-[500px] bg-white m-auto flex flex-col p-3">
-        <ContactList
-          deleteButton={deleteButton}
-          editButton={editButton}
-          editClicked={editClicked}
-          deleteClicked={deleteClicked}
-        />
+        {contacts.map((identities) => (
+          <ContactList
+            key={identities}
+            identities={identities}
+            deleteButton={deleteButton}
+            editButton={editButton}
+            editClicked={editClicked}
+            deleteClicked={deleteClicked}
+          />
+        ))}
       </div>
     </div>
   );

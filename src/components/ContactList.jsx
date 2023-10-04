@@ -7,14 +7,19 @@ const ContactList = ({
   editButton,
   editClicked,
   deleteClicked,
+  identities,
 }) => {
+  const { name, number, email, time } = identities;
   return (
     <div className="w-full h-fit border-b-2 border-gray-500 flex justify-between items-center py-2">
       <div className="flex flex-col">
         <p className="text-[14px] md:text-[19px] font-bold capitalize">
-          Akinro destined Modupe
+          {name}
         </p>
-        <p className="text-gray-400 text-[10px] md:text-[14px]">08132846999</p>
+        <div className="flex gap-3">
+          <p className="text-gray-400 text-[10px] md:text-[14px]">{number}</p>
+          <p className="text-gray-400 text-[10px] md:text-[14px]">{time}</p>
+        </div>
       </div>
       <div className="flex text-[20px] gap-2">
         <LiaEdit
