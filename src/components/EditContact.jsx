@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 
-const AddContact = ({ setAddContForm, newContact }) => {
-  const [addButt, setAddButt] = useState(false);
-  const [addContButton, setAddContactButt] = useState(false);
-  const [nameValue, setNameValue] = useState("");
-  const [emailValue, setEmailValue] = useState("");
-  const [phoneValue, setphoneValue] = useState("");
+const EditContact = ({
+  identities,
+  removeEditContForm,
+  submitEditForm,
+  editCloseButt,
+}) => {
+  const { id, name, number, email } = identities;
+  const [nameValue, setNameValue] = useState(name);
+  const [emailValue, setEmailValue] = useState(email);
+  const [phoneValue, setphoneValue] = useState(number);
 
   const handleNameChange = (e) => {
     const nameChange = e.target.value;
@@ -22,43 +26,27 @@ const AddContact = ({ setAddContForm, newContact }) => {
     setphoneValue(phoneChange);
   };
 
-  const submitAddContForm = (e) => {
+  const submitEditContForm = (e) => {
     e.preventDefault();
-    setAddContactButt(true);
-    setTimeout(() => {
-      setAddContactButt(false);
-    }, 100);
-
-    newContact(nameValue, phoneValue, emailValue);
-    setTimeout(() => {
-      setAddContForm(false);
-    }, 100);
+    submitEditForm(nameValue, phoneValue, emailValue, id);
   };
 
-  const removeAddContForm = () => {
-    setTimeout(() => {
-      setAddContForm(false);
-    }, 100);
-
-    setAddButt(true);
-    setTimeout(() => {
-      setAddButt(false);
-    }, 100);
-  };
   return (
     <div className="w-full h-fit flex">
       <form
-        onSubmit={submitAddContForm}
-        className="sm:w-[400px] h-full w-full sm:h-[350px] flex flex-col border-t-2 border-gray-400 relative bg-white m-auto p-4"
+        onSubmit={submitEditContForm}
+        className="sm:w-[400px] h-full w-full sm:h-[350px] flex flex-col border-[1px] border-gray-400 relative bg-white m-auto p-4"
       >
         <AiOutlineClose
-          onClick={removeAddContForm}
+          onClick={() => {
+            removeEditContForm(id);
+          }}
           className={`transition-transform duration-100 ease-in-out transform text-[20px] text-red-500 absolute top-4 right-4 cursor-pointer hover:text-red-700 ${
-            addButt ? "scale-110" : "scale-100"
+            editCloseButt ? "scale-110" : "scale-100"
           } `}
         />
         <div className="flex flex-col mt-5">
-          <label className="text-[18px]">Name:</label>
+          <label className="text-[15px]">Name:</label>
           <input
             required
             type="text"
@@ -68,7 +56,7 @@ const AddContact = ({ setAddContForm, newContact }) => {
           />
         </div>
         <div className="flex flex-col mt-2">
-          <label className="text-[18px]">Phone Number:</label>
+          <label className="text-[15px]">Phone Number:</label>
           <input
             required
             type="number"
@@ -78,7 +66,7 @@ const AddContact = ({ setAddContForm, newContact }) => {
           />
         </div>
         <div className="flex flex-col mt-2">
-          <label className="text-[18px]">Email:</label>
+          <label className="text-[15px]">Email:</label>
           <input
             type="email"
             required
@@ -88,16 +76,15 @@ const AddContact = ({ setAddContForm, newContact }) => {
           />
         </div>
         <button
+          onSubmit={submitEditContForm}
           type="submit"
-          className={`transition-transform duration-300 ease-in-out transform font-bold text-[17px] py-2 mt-6 bg-blue-700 hover:scale-110 ${
-            addContButton ? "scale-125" : "scale-100"
-          }`}
+          className="text-[17px] font-bold py-2 mt-6 bg-blue-700 hover:scale-110 ease-in-out duration-200"
         >
-          ADD
+          UPDATE
         </button>
       </form>
     </div>
   );
 };
 
-export default AddContact;
+export default EditContact;
